@@ -11,7 +11,6 @@ import './app.css'
 class App extends React.Component {
   state = {
     books: [],
-    allBooks: [],
     queryText: ''
   }
 
@@ -19,49 +18,34 @@ class App extends React.Component {
 componentDidMount() {
 	BooksAPI.getAll().then(data => {
     	this.setState({
-    		books: data,
-        allBooks: data
+        books: data
   		});
-      console.log(data);
     });
   }
 
-
  handleShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(response => {
-  		this.getBooks();
+    BooksAPI.update(book, shelf).then(data => {
+      this.setState({
+    		books: data
+  		});
   	});
   }
 
-getBooks = (e) => {
-	BooksAPI.getAll().then(data => {
-    	this.setState({
-    		books: data,
-        allBooks: data
-  		});
+  searchResults = (query) => {
+    this.setState({ queryText: query });
+    BooksAPI.search(this.state.queryText, 3).then(data => {
+      this.setState({
+        books: data
+      });
     });
   }
-
-  updateQuery = (query) => {
-    this.setState({ queryText: query })
-  }
-
 
   render() {
-    let filterBooks = [],
-        currentBooks = this.state.books;
-
-    filterBooks = currentBooks.filter((book) => {
-      if(book.title.toLowerCase().indexOf(this.state.queryText) !== -1) {
-        return filterBooks.push(book)
-      }
-    });
-
 
     return (
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} />} />
-          <Route exact path="/search" render={() => <Search shelfBooks={filterBooks} currentBooks={this.getBooks} onChangeQuery={this.updateQuery}  />} />
+          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults}  />} />
           <SearchButton />
       </div>
     )

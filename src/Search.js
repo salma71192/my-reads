@@ -4,7 +4,18 @@ import * as BooksAPI from "./BooksAPI";
 import "./app.css";
 
 class Search extends React.Component {
+  state = {
+    searchBooks: []
+  }
 
+// get all books from the BooksAPI
+componentDidMount() {
+	BooksAPI.getAll().then(data => {
+    	this.setState({
+    		searchBooks: data
+  		});
+    });
+  }
   updateQuery = (e) => {
     this.props.onChangeQuery(e.target.value);
   }
@@ -39,7 +50,7 @@ class Search extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.props.shelfBooks.map(book =>
+            {this.state.searchBooks.map(book =>
               <li key={book.id} className="book">
                 <div className="book-top">
                   <div
