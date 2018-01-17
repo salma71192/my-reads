@@ -2,7 +2,7 @@ import React from 'react'
 import Bookshelf from './Bookshelf.js'
 
 import * as BooksAPI from "./BooksAPI";
-import "./App.css";
+import "./app.css";
 
 class BookShelfList extends React.Component {
   handleChangeShelf = (bookId, e) => {

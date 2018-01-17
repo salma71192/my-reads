@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
-import "./App.css";
+import "./app.css";
 
 class Search extends React.Component {
   state = {
@@ -10,17 +10,27 @@ class Search extends React.Component {
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.trim() });
-  }
-  updatebooks = () => {
-    BooksAPI.search(this.state.query, 10).then(data => {
-    	this.setState({
-    		books: data
-  		});
-    });
+    this.setState({ query: query })
   }
 
+  updateBookOnSearch(book, shelf) {
+    let temp = this.state.books;
+    const bookToUpdate = temp.filter(t => t.id === book.id)[0];
+    bookToUpdate.shelf = shelf;
+    this.setState({
+      books: temp
+    });
+    this.props.onChangeShelf(book, shelf);
+  }
+
+
   render() {
+    BooksAPI.search(this.state.query, 20).then( data => {
+    	this.setState({
+    		books: data
+  		})
+  	})
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -53,7 +63,7 @@ class Search extends React.Component {
                     <select
                       value={book.shelf}
                       onChange={e => {
-                        this.onChangeShelf(book.id, e);
+                        this.updateBookOnSearch(book, e.target.value);
                       }}
                     >
                       <option value="none" disabled>
@@ -69,10 +79,12 @@ class Search extends React.Component {
                 <div className="book-title">
                   {book.title}
                 </div>
-                {book.authors &&
-                  <div className="book-authors">
-                    {book.authors[0]}
-                  </div>}
+                <div className="book-authors">
+                  {book.authors &&
+                    <div className="book-authors">
+                      {book.authors[0]}
+                    </div>}
+                </div>
               </li>
             )}
           </ol>
