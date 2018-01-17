@@ -10,14 +10,17 @@ import './app.css'
 
 class App extends React.Component {
   state = {
-    books: []
+    books: [],
+    allBooks: [],
+    queryText: ''
   }
 
 // get all books from the BooksAPI
 componentDidMount() {
 	BooksAPI.getAll().then(data => {
     	this.setState({
-    		books: data
+    		books: data,
+        allBooks: data
   		});
     });
   }
@@ -29,20 +32,37 @@ componentDidMount() {
   	});
   }
 
-  getBooks() {
+getBooks = (e) => {
 	BooksAPI.getAll().then(data => {
     	this.setState({
-    		books: data
+    		books: data,
+        allBooks: data
   		});
     });
   }
 
+  updateQuery = (query) => {
+    this.setState({ queryText: query })
+  }
+
+
   render() {
+    let filterBooks = [],
+        currentBooks = this.state.books;
+
+    filterBooks = currentBooks.filter((book) => {
+      if(book.title.toLowerCase().indexOf(this.state.queryText) !== -1) {
+        return filterBooks.push(book)
+      }
+    });
+
+    console.log(this.state.allBooks);
+
     return (
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} />} />
-            <Route exact path="/search" render={() => <Search onChangeShelf={this.handleShelf}  />} />
-            <SearchButton />
+          <Route exact path="/search" render={() => <Search shelfBooks={filterBooks} currentBooks={this.getBooks} onChangeQuery={this.updateQuery}  />} />
+          <SearchButton />
       </div>
     )
   }
