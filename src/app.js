@@ -22,6 +22,7 @@ componentDidMount() {
     		books: data,
         allBooks: data
   		});
+      console.log(data);
     });
   }
 
@@ -56,7 +57,6 @@ getBooks = (e) => {
       }
     });
 
-    console.log(this.state.allBooks);
 
     return (
     	<div className="app">

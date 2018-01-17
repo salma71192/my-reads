@@ -4,10 +4,21 @@ import * as BooksAPI from "./BooksAPI";
 import "./app.css";
 
 class Search extends React.Component {
-  
+
   updateQuery = (e) => {
     this.props.onChangeQuery(e.target.value);
   }
+
+  handleChangeShelf = (bookId, e) => {
+    let allBooks = this.props.shelfBooks;
+    const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
+    book.shelf = e.target.value;
+    BooksAPI.update(book, e.target.value).then(response => {
+      this.setState({
+        books: allBooks
+      });
+    });
+  };
 
 
   render() {
@@ -40,12 +51,7 @@ class Search extends React.Component {
                     }}
                   />
                   <div className="book-shelf-changer">
-                    <select
-                      value={book.shelf}
-                      onChange={e => {
-                        this.updateBookOnSearch(book, e.target.value);
-                      }}
-                    >
+                    <select value={book.shelf} onChange={e => this.handleChangeShelf(book.id, e)}>
                       <option value="none" disabled>
                         Move to...
                       </option>
