@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-
 import * as BooksAPI from './BooksAPI'
 import BookShelfList from './BookShelfList'
 import Search from './Search'
@@ -18,7 +17,7 @@ class App extends React.Component {
 componentDidMount() {
 	BooksAPI.getAll().then(data => {
     	this.setState({
-        books: data
+        books: data,
   		});
     });
   }
@@ -34,10 +33,10 @@ componentDidMount() {
   searchResults = (query) => {
     this.setState({ queryText: query });
     BooksAPI.search(this.state.queryText, 3).then(data => {
-      this.setState({
-        books: data
+        this.setState({
+          books: data
+        });
       });
-    });
   }
 
   render() {
@@ -45,7 +44,7 @@ componentDidMount() {
     return (
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} />} />
-          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults}  />} />
+          <Route exact path="/search" render={() => <Search shelfBooks={this.state.books} onChangeQuery={this.searchResults}  />} />
           <SearchButton />
       </div>
     )
