@@ -7,12 +7,12 @@ class Book extends React.Component {
   handleChangeShelf = (bookId, e) => {
     let allBooks = this.props.books;
     const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
+
     BooksAPI.update(book, e.target.value).then(response => {
       this.setState({
         books: allBooks
       });
     });
-
   }
 
   render() {
@@ -30,13 +30,13 @@ class Book extends React.Component {
           />
           <div className="book-shelf-changer">
             <select value={this.props.bookShelf} onChange={e => this.handleChangeShelf(this.props.bookId, e)}>
-              <option value="none" disabled>
+              <option disabled>
                 Move to...
               </option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
-              <option value="none">None</option>
+              <option value="none" selected>None</option>
             </select>
           </div>
         </div>

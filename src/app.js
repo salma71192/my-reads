@@ -10,7 +10,8 @@ import './app.css'
 class App extends React.Component {
   state = {
     books: [],
-    queryText: ""
+    queryText: "",
+    shelf: "none"
   }
 
 // get all books from the BooksAPI
@@ -29,10 +30,11 @@ componentDidMount() {
     })
     BooksAPI.search(query, 20).then(data => {
       	this.setState({
-          books: data,
+          books: data
     		});
       });
 
+      this.state.books.map(oneShelf => oneShelf.shelf === this.state.shelf);
   }
 
   render() {
