@@ -35,7 +35,7 @@ class Search extends React.Component {
             {this.props.shelfBooks.map(book =>
               <Book
               key={book.id}
-              books={this.props.books}
+              books={this.props.shelfBooks}
               bookId={book.id}
               bookThumbnail={book.imageLinks.thumbnail}
               bookShelf={book.shelf}
