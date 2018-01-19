@@ -28,13 +28,20 @@ componentDidMount() {
     this.setState({
       queryText: query
     })
-    BooksAPI.search(query, 20).then(data => {
-      	this.setState({
-          books: data
-    		});
-      });
+    if(query) {
+      BooksAPI.search(query, 20).then(data => {
+        	this.setState({
+            books: data
+      		});
+        }).then(() => {
+          this.state.books.map(oneShelf => {
+            return oneShelf.shelf === this.state.shelf
+          })
+        })
+    } else {
+      return this.state.books
+    }
 
-      this.state.books.map(oneShelf => oneShelf.shelf === this.state.shelf);
   }
 
   render() {

@@ -12,7 +12,6 @@ class Search extends React.Component {
     this.props.onChangeQuery(input);
   }
 
-
   render() {
 
     return (
@@ -23,9 +22,10 @@ class Search extends React.Component {
           </Link>
           <div className="search-books-input-wrapper">
             <input
-              type="text"
-              id="input"
+              type="search"
+              name="search"
               placeholder="Search by title or author"
+              aria-label="Search through site content"
               onChange={this.updateQuery}
             />
           </div>

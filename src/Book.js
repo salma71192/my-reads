@@ -13,6 +13,7 @@ class Book extends React.Component {
         books: allBooks
       });
     });
+    console.log(e.target.value);
   }
 
   render() {
