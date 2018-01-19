@@ -22,14 +22,6 @@ componentDidMount() {
     });
   }
 
- handleShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(data => {
-      this.setState({
-    		books: data
-  		});
-  	});
-  }
-
   searchResults = (query) => {
     this.setState({ queryText: query });
     BooksAPI.search(this.state.queryText, 3).then(data => {

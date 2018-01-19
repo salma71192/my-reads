@@ -8,6 +8,17 @@ class BookShelfList extends React.Component {
 
 
   render() {
+    let shelfsNames = ["currentlyReading", "wantToRead", "read"];
+    let eachShelf = shelfsNames.map((oneShelf, index) => {
+      return (
+        <Bookshelf
+          key={shelfsNames[index]}
+          books={this.props.shelfBooks.filter(book => book.shelf === shelfsNames[index])}
+          shelftitle={shelfsNames[index]}
+          onChangeShelf={this.handleshelf}
+        />
+      )
+    });
   	return(
       <div className="list-books">
         <div className="list-books-title">
@@ -15,24 +26,7 @@ class BookShelfList extends React.Component {
         </div>
         <div className="list-books-content">
           <div>
-      		<Bookshelf
-  			    key="currentlyReading"
-            books={this.props.shelfBooks.filter(book => book.shelf === "currentlyReading")}
-            onChangeShelf={this.handleChangeShelf}
-            shelftitle="Currently Reading"
-      		/>
-      		<Bookshelf
-		        key="wantToRead"
-            books={this.props.shelfBooks.filter(book => book.shelf === "wantToRead")}
-            onChangeShelf={this.handleChangeShelf}
-            shelftitle="Want To Read"
-      		/>
-      		<Bookshelf
-      			key="read"
-            books={this.props.shelfBooks.filter(book => book.shelf === "read")}
-            onChangeShelf={this.handleChangeShelf}
-            shelftitle="Read"
-      		/>
+      		{eachShelf}
           </div>
         </div>
       </div>

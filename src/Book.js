@@ -6,7 +6,13 @@ class Book extends React.Component {
 
   handleChangeShelf = (bookId, e) => {
     let allBooks = this.props.books;
-    const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
+    const book = allBooks.filter(oneBook => {
+      return (
+        oneBook.id === bookId
+        oneBook.shelf === e.target.value
+      )
+    })[0];
+
     BooksAPI.update(book, e.target.value).then(response => {
       this.setState({
         books: allBooks
