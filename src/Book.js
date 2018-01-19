@@ -3,18 +3,13 @@ import * as BooksAPI from './BooksAPI';
 
 
 class Book extends React.Component {
-  state = {
-    shelf: this.props.bookShelf
-  }
 
   handleChangeShelf = (bookId, e) => {
     let allBooks = this.props.books;
     const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
-    let changeShelf = e.target.value;
-    BooksAPI.update(book, changeShelf).then(response => {
+    BooksAPI.update(book, e.target.value).then(response => {
       this.setState({
-        books: allBooks,
-        shelf: changeShelf
+        books: allBooks
       });
     });
   }
@@ -33,7 +28,7 @@ class Book extends React.Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select value={this.state.shelf} onChange={e => this.handleChangeShelf(this.props.bookId, e)}>
+            <select value={this.props.bookShelf} onChange={e => this.handleChangeShelf(this.props.bookId, e)}>
               <option value="none" disabled>
                 Move to...
               </option>
