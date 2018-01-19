@@ -10,7 +10,7 @@ import './app.css'
 class App extends React.Component {
   state = {
     books: [],
-    queryText: ''
+    queryText: ""
   }
 
 // get all books from the BooksAPI
@@ -22,13 +22,17 @@ componentDidMount() {
     });
   }
 
+
   searchResults = (query) => {
-    this.setState({ queryText: query });
-    BooksAPI.search(this.state.queryText, 3).then(data => {
-        this.setState({
-          books: data
-        });
+    this.setState({
+      queryText: query
+    })
+    BooksAPI.search(query, 20).then(data => {
+      	this.setState({
+          books: data,
+    		});
       });
+
   }
 
   render() {

@@ -12,6 +12,7 @@ class Book extends React.Component {
         books: allBooks
       });
     });
+
   }
 
   render() {

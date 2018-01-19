@@ -7,7 +7,9 @@ import "./app.css";
 class Search extends React.Component {
 
   updateQuery = (e) => {
-    this.props.onChangeQuery(e.target.value);
+    console.log(e.target.value);
+    let input = e.target.value;
+    this.props.onChangeQuery(input);
   }
 
 
@@ -22,6 +24,7 @@ class Search extends React.Component {
           <div className="search-books-input-wrapper">
             <input
               type="text"
+              id="input"
               placeholder="Search by title or author"
               onChange={this.updateQuery}
             />

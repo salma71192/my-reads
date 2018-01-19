@@ -5,20 +5,19 @@ import * as BooksAPI from "./BooksAPI";
 import "./app.css";
 
 class BookShelfList extends React.Component {
-
-
   render() {
     let shelfsNames = ["currentlyReading", "wantToRead", "read"];
     let eachShelf = shelfsNames.map((oneShelf, index) => {
       return (
         <Bookshelf
           key={shelfsNames[index]}
-          books={this.props.shelfBooks.filter(book => book.shelf === shelfsNames[index])}
+          value={shelfsNames[index]}
+          books={this.props.shelfBooks.filter(oneShelf => oneShelf.shelf === shelfsNames[index])}
           shelftitle={shelfsNames[index]}
-          onChangeShelf={this.handleshelf}
         />
       )
     });
+
   	return(
       <div className="list-books">
         <div className="list-books-title">
