@@ -26,12 +26,13 @@ componentDidMount() {
   handleChangeShelf = (bookId, e) => {
     let allBooks = this.state.books;
     const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
-
+    book.shelf = e.target.value;
     BooksAPI.update(book, e.target.value).then(response => {
       this.setState({
         books: allBooks
       });
     });
+
     console.log(e.target.value);
   }
 
@@ -42,7 +43,7 @@ componentDidMount() {
    })
    if(query !== "") {
      BooksAPI.search(query, 20).then(data => {
-       if (!data || data.error) {
+       if (data.error) {
          this.setState({
            books: []
          })

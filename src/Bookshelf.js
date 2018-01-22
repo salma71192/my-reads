@@ -20,7 +20,7 @@ class Bookshelf extends React.Component {
               bookShelf={book.shelf}
               bookTitle={book.title}
               bookAuthor={book.authors}
-              onHandler={this.props.handler}
+              onHandler={this.props.onChange}
               />
             )}
           </ol>

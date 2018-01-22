@@ -14,7 +14,7 @@ class BookShelfList extends React.Component {
           value={shelfsNames[index]}
           books={this.props.shelfBooks.filter(oneShelf => oneShelf.shelf === shelfsNames[index])}
           shelftitle={shelfsNames[index]}
-          handler={this.props.handleBooks}
+          onChange={this.props.handleBooks}
         />
       )
     });
