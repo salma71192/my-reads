@@ -40,16 +40,20 @@ componentDidMount() {
    this.setState({
      queryText: query
    })
-   if(query) {
+   if(query !== "") {
      BooksAPI.search(query, 20).then(data => {
+       if (!data || data.error) {
+         this.setState({
+           books: []
+         })
+         return
+       } else {
          this.setState({
            books: data
-         });
-       }).then(() => {
-         this.state.books.map(oneShelf => {
-           return oneShelf.shelf === this.state.shelf
          })
-       })
+         return
+       }
+     })
    } else {
      return this.state.books
    }
