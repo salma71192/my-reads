@@ -32,17 +32,22 @@ class Search extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.props.shelfBooks.map(book =>
-              <Book
-              key={book.id}
-              books={this.props.shelfBooks}
-              bookId={book.id}
-              bookThumbnail={book.imageLinks.thumbnail}
-              bookShelf={book.shelf}
-              bookTitle={book.title}
-              bookAuthor={book.authors}
-              />
-            )}
+            {
+              this.props.shelfBooks.map((book) => {
+                return (
+                  <Book
+                  key={book.id}
+                  books={this.props.shelfBooks}
+                  bookId={book.id}
+                  bookThumbnail={book.imageLinks.thumbnail}
+                  bookShelf={book.shelf}
+                  bookTitle={book.title}
+                  bookAuthor={book.authors}
+                  onHandler={this.props.handleBooks}
+                  />
+                )
+              })
+            }
           </ol>
         </div>
       </div>

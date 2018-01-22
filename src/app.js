@@ -23,33 +23,45 @@ componentDidMount() {
     });
   }
 
+  handleChangeShelf = (bookId, e) => {
+    let allBooks = this.state.books;
+    const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
+
+    BooksAPI.update(book, e.target.value).then(response => {
+      this.setState({
+        books: allBooks
+      });
+    });
+    console.log(e.target.value);
+  }
+
 
   searchResults = (query) => {
-    this.setState({
-      queryText: query
-    })
-    if(query) {
-      BooksAPI.search(query, 20).then(data => {
-        	this.setState({
-            books: data
-      		});
-        }).then(() => {
-          this.state.books.map(oneShelf => {
-            return oneShelf.shelf === this.state.shelf
-          })
-        })
-    } else {
-      return this.state.books
-    }
+   this.setState({
+     queryText: query
+   })
+   if(query) {
+     BooksAPI.search(query, 20).then(data => {
+         this.setState({
+           books: data
+         });
+       }).then(() => {
+         this.state.books.map(oneShelf => {
+           return oneShelf.shelf === this.state.shelf
+         })
+       })
+   } else {
+     return this.state.books
+   }
 
-  }
+ }
 
   render() {
 
     return (
     	<div className="app">
-         	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} />} />
-          <Route exact path="/search" render={() => <Search shelfBooks={this.state.books} onChangeQuery={this.searchResults}  />} />
+         	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} handleBooks={this.handleChangeShelf} />} />
+          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.books} handleBooks={this.handleChangeShelf}/>} />
           <SearchButton />
       </div>
     )

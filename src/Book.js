@@ -4,18 +4,6 @@ import * as BooksAPI from './BooksAPI';
 
 class Book extends React.Component {
 
-  handleChangeShelf = (bookId, e) => {
-    let allBooks = this.props.books;
-    const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
-
-    BooksAPI.update(book, e.target.value).then(response => {
-      this.setState({
-        books: allBooks
-      });
-    });
-    console.log(e.target.value);
-  }
-
   render() {
 
     return(
@@ -30,7 +18,7 @@ class Book extends React.Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select value={this.props.bookShelf} onChange={e => this.handleChangeShelf(this.props.bookId, e)}>
+            <select value={this.props.bookShelf} onChange={(e) => this.props.onHandler(this.props.bookId, e)}>
               <option disabled>
                 Move to...
               </option>
