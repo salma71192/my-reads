@@ -39,7 +39,7 @@ class Search extends React.Component {
                   key={book.id}
                   books={this.props.shelfBooks}
                   bookId={book.id}
-                  bookThumbnail={book.imageLinks.thumbnail}
+                  bookThumbnail={(book.imageLinks) ? book.imageLinks.thumbnail : null}
                   bookShelf={book.shelf}
                   bookTitle={book.title}
                   bookAuthor={book.authors}

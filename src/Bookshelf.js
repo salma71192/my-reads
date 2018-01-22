@@ -16,7 +16,7 @@ class Bookshelf extends React.Component {
               key={book.id}
               books={this.props.books}
               bookId={book.id}
-              bookThumbnail={book.imageLinks.thumbnail}
+              bookThumbnail={(book.imageLinks) ? book.imageLinks.thumbnail : null}
               bookShelf={book.shelf}
               bookTitle={book.title}
               bookAuthor={book.authors}
