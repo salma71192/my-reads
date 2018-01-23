@@ -7,6 +7,7 @@ import "./app.css";
 class BookShelfList extends React.Component {
   render() {
     let shelfsNames = ["currentlyReading", "wantToRead", "read"];
+    console.log(this.props.shelfBooks);
     let eachShelf = shelfsNames.map((oneShelf, index) => {
       return (
         <Bookshelf

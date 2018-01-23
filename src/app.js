@@ -64,6 +64,7 @@ componentDidMount() {
          this.setState({
            searchBooks: data
          })
+
          return
        }
      })
@@ -80,6 +81,7 @@ componentDidMount() {
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} handleBooks={this.handleChangeShelf} />} />
           <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.searchBooks} handleBooks={this.handleSearchShelf}/>} />
+
           <SearchButton />
       </div>
     )
