@@ -10,6 +10,7 @@ import './app.css'
 class App extends React.Component {
   state = {
     books: [],
+    searchedBooks : [],
     queryText: "",
     shelf: "none"
   }
@@ -44,18 +45,19 @@ componentDidMount() {
      BooksAPI.search(query, 20).then(data => {
        if (!data || data.error) {
          this.setState({
-           books: []
+             searchedBooks: []
          })
          return
        } else {
          this.setState({
-           books: data
+             searchedBooks: data
          })
+
          return
        }
      })
    } else {
-     return this.state.books
+     return this.state.searchedBooks
    }
 
  }
@@ -65,7 +67,7 @@ componentDidMount() {
     return (
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} handleBooks={this.handleChangeShelf} />} />
-          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.books} handleBooks={this.handleChangeShelf}/>} />
+          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.searchedBooks} handleBooks={this.handleChangeShelf}/>} />
           <SearchButton />
       </div>
     )
