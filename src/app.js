@@ -10,6 +10,7 @@ import './app.css'
 class App extends React.Component {
   state = {
     books: [],
+    searchBooks: [],
     queryText: "",
     shelf: "none"
   }
@@ -23,8 +24,9 @@ componentDidMount() {
     });
   }
 
+ // handle update shelves from shelf to shelf
   handleChangeShelf = (bookId, e) => {
-    let allBooks = this.state.books;
+    let allBooks = this.state.books
     const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
     book.shelf = e.target.value;
     BooksAPI.update(book, e.target.value).then(response => {
@@ -32,31 +34,42 @@ componentDidMount() {
         books: allBooks
       });
     });
-
-    console.log(e.target.value);
   }
 
+  // handle update shelves from search books
+  handleSearchShelf = (bookId, e) => {
+    let allBooks = this.state.searchBooks
+    const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
+    book.shelf = e.target.value;
+    BooksAPI.update(book, e.target.value).then(response => {
+      this.setState({
+        searchBooks: allBooks
+      });
+    });
+  }
 
+  // Search function to look for books and move books to shelves
   searchResults = (query) => {
    this.setState({
      queryText: query
    })
    if(query !== "") {
      BooksAPI.search(query, 20).then(data => {
-       if (data.error) {
+       if (!data || data.error) {
          this.setState({
-           books: []
+           searchBooks: []
          })
          return
        } else {
          this.setState({
-           books: data
+           searchBooks: data
          })
          return
        }
      })
    } else {
-     return this.state.books
+      this.state.books
+      this.state.searchBooks
    }
 
  }
@@ -66,7 +79,7 @@ componentDidMount() {
     return (
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} handleBooks={this.handleChangeShelf} />} />
-          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.books} handleBooks={this.handleChangeShelf}/>} />
+          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.searchBooks} handleBooks={this.handleSearchShelf}/>} />
           <SearchButton />
       </div>
     )
