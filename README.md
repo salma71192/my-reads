@@ -9,9 +9,9 @@ This application allows you to select books and put them into a specific shelf. 
 ## Prerequisites
 To run this application, you will need the following:
 
--Node.js
--The command line
--NPM
+- Node.js.
+- The command line.
+- NPM.
 
 ##  How to install the project:
 	1- Clone the repo or download the zip file.
