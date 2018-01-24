@@ -40,7 +40,6 @@ class App extends React.Component {
     this.updateBook(book, e.target.value, allBooks);
   }
 
-
   // Search function to look for books and move books to shelves
   searchResults = (query) => {
    if(query !== "") {
@@ -51,7 +50,7 @@ class App extends React.Component {
            })
            return
          }
-
+      // sync books shelves
        const adjustedBooks = data.map(searchResult => {
           this.state.books.forEach(book => {
             if (book.id === searchResult.id) searchResult.shelf = book.shelf
@@ -59,7 +58,6 @@ class App extends React.Component {
           return searchResult
         })
 
-        // finally, setState
         this.setState({ searchBooks: adjustedBooks })
       })
    } else if(query === "") {
@@ -75,7 +73,7 @@ class App extends React.Component {
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} handleBooks={this.handleChangeShelf} />} />
           <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.searchBooks} handleBooks={this.handleChangeShelf}/>} />
-          <SearchButton />
+          <SearchButton/>
       </div>
     )
   }

@@ -7,7 +7,6 @@ import "./app.css";
 class Search extends React.Component {
 
   updateQuery = (e) => {
-    console.log(e.target.value);
     let input = e.target.value;
     this.props.onChangeQuery(input);
   }
