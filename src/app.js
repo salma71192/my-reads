@@ -64,11 +64,15 @@ componentDidMount() {
          this.setState({
            searchBooks: data
          })
-
          return
        }
      })
-   } else {
+   } else if(query === "") {
+       this.setState({
+         searchBooks: []
+       })
+       return
+   } else  {
       this.state.books
       this.state.searchBooks
    }
