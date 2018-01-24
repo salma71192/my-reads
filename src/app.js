@@ -50,21 +50,18 @@ class App extends React.Component {
              searchBooks: []
            })
            return
-         } else {
-           this.setState({
-             searchBooks: data
-           })
          }
-      })
 
-      let books = this.state.books;
-      this.state.searchBooks.map(function(searchBook) {
-        books.forEach(book => {
-          if (book.id === searchBook.id) {
-            searchBook.shelf === book.shelf
-          }
-         })
+       const adjustedBooks = data.map(searchResult => {
+          this.state.books.forEach(book => {
+            if (book.id === searchResult.id) searchResult.shelf = book.shelf
+          })
+          return searchResult
         })
+
+        // finally, setState
+        this.setState({ searchBooks: adjustedBooks })
+      })
    } else if(query === "") {
        this.setState({
          searchBooks: []
