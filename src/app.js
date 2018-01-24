@@ -45,7 +45,7 @@ class App extends React.Component {
   searchResults = (query) => {
    if(query !== "") {
      BooksAPI.search(query, 10).then(data => {
-         if(data.error) {
+         if(!data || data.error) {
            this.setState({
              searchBooks: []
            })
@@ -54,15 +54,21 @@ class App extends React.Component {
            this.setState({
              searchBooks: data
            })
-           return
          }
-     })
+      })
+
+      let books = this.state.books;
+      this.state.searchBooks.map(function(searchBook) {
+        books.forEach(book => {
+          if (book.id === searchBook.id) {
+            searchBook.shelf === book.shelf
+          }
+         })
+        })
    } else if(query === "") {
        this.setState({
          searchBooks: []
        })
-   } else {
-      return this.state.searchedBooks
    }
  }
 
