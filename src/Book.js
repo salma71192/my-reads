@@ -2,45 +2,41 @@ import React from 'react';
 import * as BooksAPI from './BooksAPI';
 
 
-class Book extends React.Component {
-
-  render() {
-
+function Book(props) {
     return(
-      <li key={this.props.bookId} className="book">
+      <li key={props.bookId} className="book">
         <div className="book-top">
           <div
             className="book-cover"
             style={{
               width: 128,
               height: 193,
-              backgroundImage: "url(" + this.props.bookThumbnail + ")"
+              backgroundImage: "url(" + props.bookThumbnail + ")"
             }}
           />
           <div className="book-shelf-changer">
-            <select value={this.props.bookShelf} onChange={(e) => this.props.onHandler(this.props.bookId, e)}>
+            <select value={props.bookShelf || "none"} onChange={(e) => props.onHandler(props.bookId, e)}>
               <option disabled>
                 Move to...
               </option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
-              <option value="none" selected>None</option>
+              <option value="none">None</option>
             </select>
           </div>
         </div>
         <div className="book-title">
-          {this.props.bookTitle}
+          {props.bookTitle}
         </div>
         <div className="book-authors">
-          {this.props.bookAuthor &&
+          {props.bookAuthor &&
             <div className="book-authors">
-              {this.props.bookAuthor[0]}
+              {props.bookAuthor[0]}
             </div>}
         </div>
       </li>
     )
-  }
 }
 
 export default Book
