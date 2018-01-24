@@ -10,73 +10,56 @@ import './app.css'
 class App extends React.Component {
   state = {
     books: [],
-    searchBooks: [],
-    queryText: "",
-    shelf: "none"
+    searchBooks: []
   }
 
-// get all books from the BooksAPI
-componentDidMount() {
-	BooksAPI.getAll().then(data => {
-    	this.setState({
-        books: data,
-  		});
+  getAllBooks = (data) => {
+    BooksAPI.getAll().then(data => {
+      	this.setState({
+          books: data,
+    		});
+      });
+  }
+
+  updateBook = (book, shelf, currentBooks) => {
+    BooksAPI.update(book, shelf).then(response => {
+      this.getAllBooks(currentBooks)
     });
   }
+
+  // get all books from the BooksAPI
+    componentDidMount() {
+    	this.getAllBooks();
+    }
 
  // handle update shelves from shelf to shelf
-  handleChangeShelf = (bookId, e) => {
-    let allBooks = this.state.books
+  handleChangeShelf = (bookId, shelfBooks, e) => {
+    let allBooks = shelfBooks;
     const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
     book.shelf = e.target.value;
-    BooksAPI.update(book, e.target.value).then(response => {
-      this.setState({
-        books: allBooks
-      });
-    });
+    this.updateBook(book, e.target.value, allBooks);
   }
 
-  // handle update shelves from search books
-  handleSearchShelf = (bookId, e) => {
-    let allBooks = this.state.searchBooks
-    const book = allBooks.filter(oneBook => oneBook.id === bookId)[0];
-    book.shelf = e.target.value;
-    BooksAPI.update(book, e.target.value).then(response => {
-      this.setState({
-        searchBooks: allBooks
-      });
-    });
-  }
 
   // Search function to look for books and move books to shelves
   searchResults = (query) => {
-   this.setState({
-     queryText: query
-   })
    if(query !== "") {
-     BooksAPI.search(query, 20).then(data => {
-       if (!data || data.error) {
-         this.setState({
-           searchBooks: []
-         })
-         return
-       } else {
-         this.setState({
-           searchBooks: data
-         })
-         return
-       }
+     BooksAPI.search(query, 10).then(data => {
+         if(!data || data.error) {
+           this.setState({
+             searchBooks: []
+           })
+           return
+         } else {
+           this.setState({
+             searchBooks: data
+           })
+           return
+         }
      })
-   } else if(query === "") {
-       this.setState({
-         searchBooks: []
-       })
-       return
-   } else  {
-      this.state.books
-      this.state.searchBooks
+   } else {
+      return this.state.searchedBooks
    }
-
  }
 
   render() {
@@ -84,8 +67,7 @@ componentDidMount() {
     return (
     	<div className="app">
          	<Route exact path="/" render={() => <BookShelfList shelfBooks={this.state.books} handleBooks={this.handleChangeShelf} />} />
-          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.searchBooks} handleBooks={this.handleSearchShelf}/>} />
-
+          <Route exact path="/search" render={() => <Search onChangeQuery={this.searchResults} shelfBooks={this.state.searchBooks} handleBooks={this.handleChangeShelf}/>} />
           <SearchButton />
       </div>
     )
